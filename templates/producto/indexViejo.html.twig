@@ -1,0 +1,25 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Productos{% endblock %}
+
+{% block principal %}
+
+    <div class="row">
+        {% for producto in productos %}
+            <div class="col-md-3 shop_box">
+{#                    <img src="{% if producto.imagen is not null %}{{ producto.imagen }}{% else %}{{ asset('images/logotesteo.png') }}{% endif %} class="img-responsive" alt="{{ producto.titulo }}" />#}
+                    <img src="{{ producto.imagen }}" class="img-responsive" alt="{{ producto.titulo }}" />
+                    <div class="shop_desc">
+                        <h3><a href="{{ path('productos_show', {id: producto.id}) }}">{{ producto.titulo }}</a></h3>
+                        <p> {{ producto.subtitulo }} </p>
+                        <span class="actual">{{ producto.precio }}€</span><br>
+                        <ul class="buttons">
+                            <li class="cart"><a href="#">Add To Cart</a></li>
+                            <li class="shop_btn"><a href="#">Read More</a></li>
+                            <div class="clear"> </div>
+                        </ul>
+                    </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Tienda
+{% endblock %}
+
+{% block body %}
+    {% include'parts/header.part.html.twig' %}
+{#    <header>#}
+{#        <h1>Aplicacion de ejemplo</h1>#}
+{#        <img src="{{ asset('images/logotesteo.png') }}" alt="imgTesteo">#}
+{#    </header>#}
+{#    <nav>#}
+{#        <ul>#}
+{#            <li><a href="{{ path('productos_index')}}">Inicio</a></li>#}
+{#            <li><a href="{{ path('dwes_index')}}">Testeo</a></li>#}
+{#        </ul>#}
+{#    </nav>#}
+
+    <main>
+        {% block principal %}
+            <p>Contenido principal a sobrescribir</p>
+        {% endblock %}
+    </main>
+
+        {% include'parts/footer.part.html.twig' %}
+{#    <footer><p><small>Todos los derechos reservados</small></p></footer>#}
+
+{% endblock %}

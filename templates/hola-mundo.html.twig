@@ -1,23 +1,30 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Hola Mundo</title>
-</head>
-<body>
+{% extends 'layout.html.twig' %}
 
+{% block title %}
+    {{ parent() }}
+    {{ nombre }}
+{% endblock %}
+
+{% block principal %}
     {% if nombre is defined and nombre is not null %}
         <p>Hola {{ nombre }}!</p>
     {% else %}
         <p>Hola mundo!</p>
     {% endif %}
 
+    <p>La fecha de hoy es: {{ fecha | date("d/m/Y") }}</p>
+    {# La fecha de hoy es: 07/02/2022#}
+
     {# loop => información itiración actual (index, first, length, parent..) #}
-    <ul>
-        {% for user in users %}
-            <li>({{ loop.index }}) {{ user }}</li>
-        {% endfor %}
-    </ul>
+    {% include'parts/users.part.html.twig' with {'users': users} %}
+    {#    <ul>#}
+    {#        {% for user in users %}#}
+    {#            <li>({{ loop.index }}) {{ user }}</li>#}
+    {#        {% endfor %}#}
+    {#    </ul>#}
+    {# (1) Pepe #}
+    {# (2) Jose #}
+    {# (3) Eustaquio #}
 
     <ul>
         {% for i in 1..10 %}
@@ -26,6 +33,9 @@
             {% endif %}
         {% endfor %}
     </ul>
-
-</body>
-</html>
+    {# 2 #}
+    {# 4 #}
+    {# 6 #}
+    {# 8 #}
+    {# 10 #}
+{% endblock %}
