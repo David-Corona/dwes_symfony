@@ -52,14 +52,17 @@ class Producto
      */
     private $precio;
 
+    //      * @ORM\Column(type="string", length=255, nullable=true)
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\File(mimeTypes={"image/jpeg", "image/png"})
+     * @Assert\NotBlank(message="Debes subir una imagen del producto.")
      */
     private $imagen;
 
     public function __construct()
     {
-        $this->imagen = 'images/logotesteo.png';
+//        $this->imagen = 'images/logotesteo.png';
     }
 
     public function getId(): ?int

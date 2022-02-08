@@ -28,7 +28,7 @@ class ProductoViejoController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="productos_show")
+     * @Route("producto/{id}", name="productos_show")
      */
     public function show(Producto $producto): Response
     {

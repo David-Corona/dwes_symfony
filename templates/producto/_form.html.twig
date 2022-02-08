@@ -1,4 +1,105 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+{#    {{ form_widget(form) }}#}
+
+    {{ form_row(form.titulo, { 'label': 'Título:'}) }}
+
+
+{#<div class="form-control">#}
+{#    <div class="form-error">#}
+{#        {{ form_errors(form.titulo) }}#}
+{#    </div>#}
+{#</div>#}
+
+{#    {{ form_row(form.subtitulo, { 'label': 'Subtítulo:'}) }}#}
+
+<div>
+    <div>
+        {{ form_label(form.subtitulo, 'Subtítulo:') }}
+    </div>
+    <div>
+        {{ form_widget(form.subtitulo) }}
+    </div>
+    <div>
+        {{ form_errors(form.subtitulo) }}
+    </div>
+    <div>
+        {{ form_help(form.subtitulo) }}
+    </div>
+</div>
+
+
+{#    {{ form_row(form.descripcion, { 'label': 'Descripción:'}) }}#}
+
+<div>
+    <div>
+        {{ form_label(form.descripcion, 'Descripción:') }}
+    </div>
+    <div>
+        {{ form_widget(form.descripcion) }}
+    </div>
+    <div>
+        {{ form_errors(form.descripcion) }}
+    </div>
+    <div>
+        {{ form_help(form.descripcion) }}
+    </div>
+</div>
+
+    {{ form_row(form.precio, { 'label': 'Precio:'}) }}
+
+    {{ form_row(form.imagen) }}
+    <div>
+        {% if form.imagen.vars.data %}
+            <img src="{{ asset('/uploads/imgs/' ~ form.imagen.vars.data ) }}" >
+        {% endif %}
+    </div>
+
     <button class="btn">{{ button_label|default('Guardar') }}</button>
+
+{#{ form_rest(form) }}#}
 {{ form_end(form) }}
+
+
+{#                <h1>Alta nuevo producto</h1>#}
+{#                <hr>#}
+{#                <div>#}
+
+{#                    <?php include __DIR__ . '/partials/show-error.part.php' ?>#}
+
+{#                    <form method="post" action="/productos/nuevo" enctype="multipart/form-data">#}
+{#                        <div class="">#}
+
+
+{#                            <p><label for="titulo">(*) Título</label>#}
+{#                                <input type="text" class="text" name="titulo" value="<?= $titulo ?? '' ?>" required></p>#}
+
+{#                            <p><label for="subtitulo">(*) Subtítulo</label>#}
+{#                                <input type="text" class="text" name="subtitulo" value="<?= $subtitulo ?? '' ?>" required></p>#}
+
+{#                            <p><label for="descripcion">Descripción</label>#}
+{#                                <textarea name="descripcion" rows="5" cols="40" ><?= $descripcion ?? '' ?></textarea></p>#}
+
+{#                            <p><label for="categoria">(*) Categoría</label>#}
+{#                                <select name="categoria">#}
+{#                                    <?php foreach ($categorias as $categoria) : ?>#}
+{#                                    <option value="<?= $categoria->getId() ?>"#}
+{#                                    <?= ($categoriaSeleccionada == $categoria->getId()) ? 'selected' : '' ?>#}
+{#                                    ><?= $categoria->getNombre() ?>#}
+{#                                    </option>#}
+{#                                    <?php endforeach; ?>#}
+{#                                </select>#}
+
+{#                            <p><label for="precio">(*) Precio</label>#}
+{#                                <input type="number" name="precio" min="0.00" max="1000" step="0.01" value="<?= $precio ?? '' ?>" required></p>#}
+
+{#                            <p><label for="imagen">Imagen</label>#}
+{#                                <input type="file" class="form-control" name="imagen" ></p>#}
+
+{#                            <button class="">ENVIAR</button>#}
+
+{#                        </div>#}
+{#                        <div class="clear">Los campos marcados con (*) son obligatorios.</div>#}
+{#                    </form>#}
+{#                </div>#}
+{#                <hr>#}
+{#                <?php endif; ?>#}

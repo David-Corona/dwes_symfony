@@ -25,19 +25,25 @@
                 <td>{{ producto.subtitulo }}</td>
                 <td>{{ producto.descripcion }}</td>
                 <td>{{ producto.precio }}</td>
-                <td>{{ producto.imagen }}</td>
+                <td><img width="120" src="{{ asset('/uploads/imgs/' ~ producto.imagen ) }}" alt="{{ producto.imagen }}"></td>
                 <td>
-                    <a href="{{ path('producto_show', {'id': producto.id}) }}">show</a>
-                    <a href="{{ path('producto_edit', {'id': producto.id}) }}">edit</a>
+                    <a href="{{ path('producto_show', {'id': producto.id}) }}">Mostrar</a>
+                    <a href="{{ path('producto_edit', {'id': producto.id}) }}">Editar</a>
+                    <a href="{{ path('producto_delete_json', {'id': producto.id}) }}" class="delete">Eliminar</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="7">no records found</td>
+                <td colspan="7">No hay productos a listar.</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('producto_new') }}">Create new</a>
+    <a href="{{ path('producto_new') }}">Crear</a>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/delete.js') }}"></script>
 {% endblock %}

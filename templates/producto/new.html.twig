@@ -3,9 +3,72 @@
 {% block title %}{{ parent() }} - Nuevo Producto{% endblock %}
 
 {% block principal %}
-    <h1>Crear nuevo producto</h1>
+<div class="main">
+    <div class="shop_top">
+        <div class="container">
+            <div class="row">
+                <h1>Alta nuevo producto</h1>
+                <hr>
+
 
     {{ include('producto/_form.html.twig') }}
 
     <a href="{{ path('producto_index') }}">Volver</a>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
+
+
+{#<div class="main">#}
+{#    <div class="shop_top">#}
+{#        <div class="container">#}
+{#            <div class="row">#}
+{#                <?php if ($app['user']->getId() == $id) : ?>#}
+{#                <h1>Alta nuevo producto</h1>#}
+{#                <hr>#}
+{#                <div>#}
+
+{#                    <?php include __DIR__ . '/partials/show-error.part.php' ?>#}
+
+{#                    <form method="post" action="/productos/nuevo" enctype="multipart/form-data">#}
+{#                        <div class="">#}
+
+
+{#                            <p><label for="titulo">(*) Título</label>#}
+{#                                <input type="text" class="text" name="titulo" value="<?= $titulo ?? '' ?>" required></p>#}
+
+{#                            <p><label for="subtitulo">(*) Subtítulo</label>#}
+{#                                <input type="text" class="text" name="subtitulo" value="<?= $subtitulo ?? '' ?>" required></p>#}
+
+{#                            <p><label for="descripcion">Descripción</label>#}
+{#                                <textarea name="descripcion" rows="5" cols="40" ><?= $descripcion ?? '' ?></textarea></p>#}
+
+{#                            <p><label for="categoria">(*) Categoría</label>#}
+{#                                <select name="categoria">#}
+{#                                    <?php foreach ($categorias as $categoria) : ?>#}
+{#                                    <option value="<?= $categoria->getId() ?>"#}
+{#                                    <?= ($categoriaSeleccionada == $categoria->getId()) ? 'selected' : '' ?>#}
+{#                                    ><?= $categoria->getNombre() ?>#}
+{#                                    </option>#}
+{#                                    <?php endforeach; ?>#}
+{#                                </select>#}
+
+{#                            <p><label for="precio">(*) Precio</label>#}
+{#                                <input type="number" name="precio" min="0.00" max="1000" step="0.01" value="<?= $precio ?? '' ?>" required></p>#}
+
+{#                            <p><label for="imagen">Imagen</label>#}
+{#                                <input type="file" class="form-control" name="imagen" ></p>#}
+
+{#                            <button class="">ENVIAR</button>#}
+
+{#                        </div>#}
+{#                        <div class="clear">Los campos marcados con (*) son obligatorios.</div>#}
+{#                    </form>#}
+{#                </div>#}
+{#                <hr>#}
+{#                <?php endif; ?>#}

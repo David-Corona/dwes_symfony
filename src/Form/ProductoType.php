@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Producto;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -18,15 +19,16 @@ class ProductoType extends AbstractType
             ->add('titulo', TextType::class)
             ->add('subtitulo', TextType::class)
             ->add('descripcion', TextareaType::class)
-            ->add('precio', NumberType::class, array(
+            ->add('precio', NumberType::class
+                , array(
                 'scale' => 1,
                 'attr' => array(
                     'min' => 0,
                     'max' => 1000,
                     'step' => '.01',
-                )
-            ))
-            ->add('imagen', TextType::class)
+                ))
+            )
+            ->add('imagen', FileType::class, ['data_class' => null, 'label' => 'Imagen (JPG o PNG):'])
         ;
     }
 
