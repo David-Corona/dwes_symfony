@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\BLL\ProductoBLL;
 use App\Entity\Producto;
 use App\Form\ProductoType;
 use App\Repository\ProductoRepository;
@@ -23,26 +24,9 @@ class ProductoController extends AbstractController
      * @Route("/", name="producto_index", methods={"GET"})
      * @Route("/orden/{ordenacion}", name="producto_index_ordenado", methods={"GET"})
      */
-    public function index(RequestStack $requestStack, ProductoRepository $productoRepository, string $ordenacion=null): Response
+    public function index(ProductoBLL $productoBLL, string $ordenacion=null): Response
     {
-        if (!is_null($ordenacion)) {
-            $tipoOrdenacion = 'asc';
-            $session = $requestStack->getSession();
-            $productosOrdenacion = $session->get('productosOrdenacion');
-            if (!is_null($productosOrdenacion)) {
-                if ($productosOrdenacion['ordenacion'] === $ordenacion) {
-                    if ($productosOrdenacion['tipoOrdenacion'] === 'asc')
-                        $tipoOrdenacion = 'desc';
-                }
-            }
-            $session->set('productosOrdenacion', [ 'ordenacion' => $ordenacion, 'tipoOrdenacion' => $tipoOrdenacion ]);
-        } else {
-            $ordenacion = 'id';
-            $tipoOrdenacion = 'asc';
-        }
-        $productos = $productoRepository->findBy([], [$ordenacion => $tipoOrdenacion]);
-        // findBy recibe 2 arrays: criterios búsqueda y criterios ordenación
-
+        $productos = $productoBLL->getProductosConOrdenacion($ordenacion);
         return $this->render('producto/index.html.twig', [
             'productos' => $productos,
         ]);
@@ -53,12 +37,23 @@ class ProductoController extends AbstractController
      */
     public function busqueda(Request $request, ProductoRepository $productoRepository): Response
     {
-        $busqueda = $request->request->get('busqueda');
-        //$productos = $productoRepository->findBy(['titulo' => $busqueda]); // busqueda del valor exacto
-        $productos = $productoRepository->findLikeTitulo($busqueda);
+        // Separar en varios actions?? Filtrado fecha y por nombre -> nombre cambiar a categoria segun enunciado
+        // o separar func repositorio
 
+        $titulo = $request->request->get('busqueda');
+        $fechaInicial = $request->request->get('fechaInicial');
+        $fechaFinal = $request->request->get('fechaFinal');
+        $categoria = $request->request->get('categoria');
+        //$productos = $productoRepository->findBy(['titulo' => $busqueda]); // busqueda del valor exacto
+        $productos = $productoRepository->findProductos($titulo, $fechaInicial, $fechaFinal, $categoria);
+
+        // paso las busquedas para que se guarden despues de la busqueda
         return $this->render('producto/index.html.twig', [
             'productos' => $productos,
+            'titulo' => $titulo,
+            'fechaInicial' => $fechaInicial,
+            'fechaFinal' => $fechaFinal,
+            'categoria' => $categoria,
         ]);
     }
 
@@ -71,6 +66,10 @@ class ProductoController extends AbstractController
         // Request: permite acceder a to-do aquello que venga por get/post/$_Server
         // entityManager: entidades interactuan con bbdd mediante entitymanager
         $producto = new Producto();
+
+        // asigna fecha de hoy por defecto
+        $producto->setFecha(new \DateTime(date('Y/m/d')));
+
         //Para añadir campos por defecto -> generar constructor en la clase -> creado con ejemplo imagen por defecto
         //En otra parte, donde ya esté inicalizado, podría modificarlo: $producto->setImagen()
         $form = $this->createForm(ProductoType::class, $producto);
@@ -98,6 +97,8 @@ class ProductoController extends AbstractController
 
             $entityManager->persist($producto); //genera la query, el insert para guardar en bbdd
             $entityManager->flush(); //se ejecuta en bbdd, ejecuta queries pendientes
+
+            $this->addFlash('mensaje', 'Se ha creado el producto ' . $producto->getTitulo() . ' correctamente.');
 
             return $this->redirectToRoute('producto_index', [], Response::HTTP_SEE_OTHER);
         }

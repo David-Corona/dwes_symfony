@@ -10,40 +10,42 @@
 {#    </div>#}
 {#</div>#}
 
-{#    {{ form_row(form.subtitulo, { 'label': 'Subtítulo:'}) }}#}
+    {{ form_row(form.subtitulo, { 'label': 'Subtítulo:'}) }}
 
-<div>
-    <div>
-        {{ form_label(form.subtitulo, 'Subtítulo:') }}
-    </div>
-    <div>
-        {{ form_widget(form.subtitulo) }}
-    </div>
-    <div>
-        {{ form_errors(form.subtitulo) }}
-    </div>
-    <div>
-        {{ form_help(form.subtitulo) }}
-    </div>
-</div>
+{#<div>#}
+{#    <div>#}
+{#        {{ form_label(form.subtitulo, 'Subtítulo:') }}#}
+{#    </div>#}
+{#    <div>#}
+{#        {{ form_widget(form.subtitulo) }}#}
+{#    </div>#}
+{#    <div>#}
+{#        {{ form_errors(form.subtitulo) }}#}
+{#    </div>#}
+{#    <div>#}
+{#        {{ form_help(form.subtitulo) }}#}
+{#    </div>#}
+{#</div>#}
 
+{#    {{ form_row(form.fecha, { 'label': 'Fecha:'}) }}#}
+    {{ form_row(form.descripcion, { 'label': 'Descripción:'}) }}
 
-{#    {{ form_row(form.descripcion, { 'label': 'Descripción:'}) }}#}
+{#<div>#}
+{#    <div>#}
+{#        {{ form_label(form.descripcion, 'Descripción:') }}#}
+{#    </div>#}
+{#    <div>#}
+{#        {{ form_widget(form.descripcion) }}#}
+{#    </div>#}
+{#    <div>#}
+{#        {{ form_errors(form.descripcion) }}#}
+{#    </div>#}
+{#    <div>#}
+{#        {{ form_help(form.descripcion) }}#}
+{#    </div>#}
+{#</div>#}
 
-<div>
-    <div>
-        {{ form_label(form.descripcion, 'Descripción:') }}
-    </div>
-    <div>
-        {{ form_widget(form.descripcion) }}
-    </div>
-    <div>
-        {{ form_errors(form.descripcion) }}
-    </div>
-    <div>
-        {{ form_help(form.descripcion) }}
-    </div>
-</div>
+    {{ form_row(form.categoria, { 'label': 'Categoría:'}) }}
 
     {{ form_row(form.precio, { 'label': 'Precio:'}) }}
 
@@ -56,7 +58,7 @@
 
     <button class="btn btn-secondary">{{ button_label|default('Guardar') }}</button>
 
-
+{ form_errors(form) }}
 {#{ form_rest(form) }}#}
 {{ form_end(form) }}
 

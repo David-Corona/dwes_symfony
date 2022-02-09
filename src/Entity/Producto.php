@@ -60,6 +60,17 @@ class Producto
      */
     private $imagen;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Categoria::class, inversedBy="productos")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $categoria;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $fecha;
+
     public function __construct()
     {
 //        $this->imagen = 'images/logotesteo.png';
@@ -126,6 +137,30 @@ class Producto
     public function setImagen(string $imagen): self
     {
         $this->imagen = $imagen;
+
+        return $this;
+    }
+
+    public function getCategoria(): ?Categoria
+    {
+        return $this->categoria;
+    }
+
+    public function setCategoria(?Categoria $categoria): self
+    {
+        $this->categoria = $categoria;
+
+        return $this;
+    }
+
+    public function getFecha(): ?\DateTimeInterface
+    {
+        return $this->fecha;
+    }
+
+    public function setFecha(?\DateTimeInterface $fecha): self
+    {
+        $this->fecha = $fecha;
 
         return $this;
     }
