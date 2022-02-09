@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -17,15 +18,50 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ProductoController extends AbstractController
 {
+
     /**
      * @Route("/", name="producto_index", methods={"GET"})
+     * @Route("/orden/{ordenacion}", name="producto_index_ordenado", methods={"GET"})
      */
-    public function index(ProductoRepository $productoRepository): Response
+    public function index(RequestStack $requestStack, ProductoRepository $productoRepository, string $ordenacion=null): Response
     {
+        if (!is_null($ordenacion)) {
+            $tipoOrdenacion = 'asc';
+            $session = $requestStack->getSession();
+            $productosOrdenacion = $session->get('productosOrdenacion');
+            if (!is_null($productosOrdenacion)) {
+                if ($productosOrdenacion['ordenacion'] === $ordenacion) {
+                    if ($productosOrdenacion['tipoOrdenacion'] === 'asc')
+                        $tipoOrdenacion = 'desc';
+                }
+            }
+            $session->set('productosOrdenacion', [ 'ordenacion' => $ordenacion, 'tipoOrdenacion' => $tipoOrdenacion ]);
+        } else {
+            $ordenacion = 'id';
+            $tipoOrdenacion = 'asc';
+        }
+        $productos = $productoRepository->findBy([], [$ordenacion => $tipoOrdenacion]);
+        // findBy recibe 2 arrays: criterios búsqueda y criterios ordenación
+
         return $this->render('producto/index.html.twig', [
-            'productos' => $productoRepository->findAll(),
+            'productos' => $productos,
         ]);
     }
+
+    /**
+     * @Route("/busqueda", name="producto_index_busqueda", methods={"POST"})
+     */
+    public function busqueda(Request $request, ProductoRepository $productoRepository): Response
+    {
+        $busqueda = $request->request->get('busqueda');
+        //$productos = $productoRepository->findBy(['titulo' => $busqueda]); // busqueda del valor exacto
+        $productos = $productoRepository->findLikeTitulo($busqueda);
+
+        return $this->render('producto/index.html.twig', [
+            'productos' => $productos,
+        ]);
+    }
+
 
     /**
      * @Route("/new", name="producto_new", methods={"GET", "POST"})

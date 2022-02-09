@@ -3,18 +3,33 @@
 {% block title %}Producto index{% endblock %}
 
 {% block principal %}
-    <h1>Producto index</h1>
+<div class="main">
+    <div class="shop_top">
+        <div class="container">
+            <div class="row">
+                <h1>Productos</h1>
+
+
+                <form action="{{ path('producto_index_busqueda') }}" method="post">
+                    <label>Búsqueda:</label>
+                    <input type="text" name="busqueda" id="busqueda" value="">
+                    <input type="submit" value="Buscar">
+                </form>
+
+
+                <hr>
+
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Titulo</th>
-                <th>Subtitulo</th>
-                <th>Descripcion</th>
-                <th>Precio</th>
+                <th><a href="{{ path('producto_index_ordenado', {ordenacion: 'id'}) }}" title="Pincha para ordenar">ID</a></th>
+                <th><a href="{{ path('producto_index_ordenado', {ordenacion: 'titulo'}) }}" title="Pincha para ordenar">Título</a></th>
+                <th>Subtítulo</th>
+                <th>Descripción</th>
+                <th><a href="{{ path('producto_index_ordenado', {ordenacion: 'precio'}) }}" title="Pincha para ordenar">Precio</a></th>
                 <th>Imagen</th>
-                <th>actions</th>
+                <th>Opciones</th>
             </tr>
         </thead>
         <tbody>
@@ -40,7 +55,11 @@
         </tbody>
     </table>
 
-    <a href="{{ path('producto_new') }}">Crear</a>
+    <a class="btn btn-secondary" href="{{ path('producto_new') }}" role="button">Crear</a>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block javascripts %}

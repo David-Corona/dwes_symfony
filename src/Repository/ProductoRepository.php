@@ -19,6 +19,21 @@ class ProductoRepository extends ServiceEntityRepository
         parent::__construct($registry, Producto::class);
     }
 
+    /**
+    * @return Producto[]
+    */
+    public function findLikeTitulo($value)
+    {
+        $qb = $this->createQueryBuilder('p'); // alias p representa el objeto en la clase en la que estoy
+
+        $qb ->where($qb->expr()->like('p.titulo', ':val')) // where titulo equivale al parametro
+            ->setParameter('val', '%'.$value.'%'); //doy valor al parametro
+
+        return $qb->getQuery()->getResult();
+
+    }
+
+
     // /**
     //  * @return Producto[] Returns an array of Producto objects
     //  */
