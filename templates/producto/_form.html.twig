@@ -50,15 +50,15 @@
     {{ form_row(form.precio, { 'label': 'Precio:'}) }}
 
     {{ form_row(form.imagen) }}
-    <div>
-        {% if form.imagen.vars.data %}
-            <img src="{{ asset('/uploads/imgs/' ~ form.imagen.vars.data ) }}" >
-        {% endif %}
-    </div>
+{#    <div>#}
+{#        {% if form.imagen.vars.data %}#}
+{#            <img src="{{ asset('/uploads/imgs/' ~ form.imagen.vars.data ) }}" >#}
+{#        {% endif %}#}
+{#    </div>#}
 
     <button class="btn btn-secondary">{{ button_label|default('Guardar') }}</button>
 
-{ form_errors(form) }}
+{{ form_errors(form) }}
 {#{ form_rest(form) }}#}
 {{ form_end(form) }}
 

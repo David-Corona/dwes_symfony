@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\CRUD;
 
 use App\BLL\ProductoBLL;
 use App\Entity\Producto;
@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/producto/admin")
+ * @Route("/producto")
  */
 class ProductoController extends AbstractController
 {
