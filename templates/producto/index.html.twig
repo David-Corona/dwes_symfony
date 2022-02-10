@@ -35,6 +35,7 @@
                 <th>Subtítulo</th>
                 <th>Descripción</th>
                 <th>Categoría</th>
+                <th>Usuario</th>
                 <th>Fecha</th>
                 <th><a href="{{ path('producto_index_ordenado', {ordenacion: 'precio'}) }}" title="Pincha para ordenar">Precio</a></th>
                 <th>Imagen</th>
@@ -49,6 +50,7 @@
                 <td>{{ producto.subtitulo }}</td>
                 <td>{{ producto.descripcion }}</td>
                 <td>{{ producto.categoria }}</td>
+                <td>{{ producto.usuario }}</td>
                 <td>{{ producto.fecha | date('d/m/Y')}}</td>
                 <td>{{ producto.precio }}€</td>
                 <td class="text-center"><img width="120" src="{{ asset('/uploads/imgs/' ~ producto.imagen ) }}" alt="{{ producto.imagen }}"></td>
@@ -57,7 +59,7 @@
                     <br>
                     <a class="btn btn-secondary btn-sm mt-2" href="{{ path('producto_edit', {'id': producto.id}) }}">Editar</a>
                     <br>
-                    <a class="btn btn-secondary btn-sm mt-2" href="{{ path('producto_delete_json', {'id': producto.id}) }}" class="delete">Eliminar</a>
+                    <a class="btn btn-secondary btn-sm mt-2 delete" href="{{ path('producto_delete_json', {'id': producto.id}) }}">Eliminar</a>
                 </td>
             </tr>
         {% else %}

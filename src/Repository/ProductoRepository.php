@@ -3,10 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\Producto;
+use App\Entity\Usuario;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use function Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * @method Producto|null find($id, $lockMode = null, $lockVersion = null)
@@ -21,10 +22,20 @@ class ProductoRepository extends ServiceEntityRepository
         parent::__construct($registry, Producto::class);
     }
 
+    private function addUserFilter(QueryBuilder $qb, Usuario $usuario)
+    {
+        if (in_array('ROLE_ADMIN', $usuario->getRoles()) === false) { //en caso de no ser admin
+            $qb->innerJoin('producto.usuario', 'usuario')
+                ->andWhere($qb->expr()->eq('producto.usuario', ':usuario'))
+                ->setParameter('usuario', $usuario);
+        }
+    }
+
     /**
     * @return Producto[]
     */
-    public function findProductos(?string $titulo, ?string $fechaInical, ?string $fechaFinal, string $categoria)
+    public function findProductos(
+        ?string $titulo, ?string $fechaInical, ?string $fechaFinal, string $categoria, Usuario $usuario)
     {
 
         $qb = $this->createQueryBuilder('producto'); // alias p = el objeto en la clase en la que estoy
@@ -58,8 +69,7 @@ class ProductoRepository extends ServiceEntityRepository
                 ->setParameter('fechaFinal', $dtFechaIFinal);
         }
 
-
-
+        $this->addUserFilter($qb, $usuario);
 
         return $qb->getQuery()->getResult();
 
@@ -72,13 +82,15 @@ class ProductoRepository extends ServiceEntityRepository
      * @param string $tipoOrdenacion
      * @return int|mixed|string
      */
-    public function findProductosConCategoria(string $ordenacion, string $tipoOrdenacion)
+    public function findProductosConCategoria(string $ordenacion, string $tipoOrdenacion, Usuario $usuario)
     {
         $qb = $this->createQueryBuilder('producto'); //creo query para entienda producto
 
         $qb->addSelect('categoria')
             ->innerJoin('producto.categoria', 'categoria') // extrae datos de las 2 tablas = where x.id=y.id
             ->orderBy('producto.'.$ordenacion, $tipoOrdenacion);
+
+        $this->addUserFilter($qb, $usuario);
 
         return $qb->getQuery()->getResult();
     }

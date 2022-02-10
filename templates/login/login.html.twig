@@ -6,6 +6,12 @@
     {% if error %}
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
+    {% if verify_email_error is defined %}
+        <div>{{ verify_email_error.messageKey|trans(verify_email_error.messageData, 'security') }}</div>
+    {% endif %}
+    {% if success is defined %}
+        <div>{{ success.messageKey|trans(success.messageData, 'security') }}</div>
+    {% endif %}
 
     <form action="{{ path('login') }}" method="post">
         <label for="username">Email:</label>
@@ -13,6 +19,8 @@
 
         <label for="password">Contraseña:</label>
         <input type="password" id="password" name="_password"/>
+
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
         {# If you want to control the URL the user is redirected to on success
         <input type="hidden" name="_target_path" value="/account"/> #}

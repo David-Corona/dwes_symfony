@@ -44,8 +44,9 @@ class ProductoController extends AbstractController
         $fechaInicial = $request->request->get('fechaInicial');
         $fechaFinal = $request->request->get('fechaFinal');
         $categoria = $request->request->get('categoria');
+        $usuarioLogueado = $this->getUser();
         //$productos = $productoRepository->findBy(['titulo' => $busqueda]); // busqueda del valor exacto
-        $productos = $productoRepository->findProductos($titulo, $fechaInicial, $fechaFinal, $categoria);
+        $productos = $productoRepository->findProductos($titulo, $fechaInicial, $fechaFinal, $categoria, $usuarioLogueado);
 
         // paso las busquedas para que se guarden despues de la busqueda
         return $this->render('producto/index.html.twig', [
@@ -78,12 +79,11 @@ class ProductoController extends AbstractController
         // verifica si se han enviado datos (entra al if) o simplemente muestra el formulario (no entra)
         if ($form->isSubmitted() && $form->isValid()) {
 
-            // $imagen almacena la imagen subida
+            // IMAGEN
             /** @var Symfony\Component\HttpFoundation\File\UploadedFile $imagen */
             $imagen = $form['imagen']->getData();
 
-            // Se genera un nombre único
-            $fileName = md5(uniqid()).'.'.$imagen->guessExtension();
+            $fileName = md5(uniqid()).'.'.$imagen->guessExtension(); // Se genera un nombre único
 
             // Mueve la imagen al directorio de imágenes
             $imagen->move(
@@ -91,9 +91,11 @@ class ProductoController extends AbstractController
                 $fileName
             );
 
-            // cambiamos el campo imagen del producto para almacenar el nombre del fichero
-            $producto->setImagen($fileName);
+            $producto->setImagen($fileName); // almacena el nombre del fichero
 
+            //USUARIO
+            $usuario = $this->getUser();
+            $producto->setUsuario($usuario);
 
             $entityManager->persist($producto); //genera la query, el insert para guardar en bbdd
             $entityManager->flush(); //se ejecuta en bbdd, ejecuta queries pendientes

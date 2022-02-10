@@ -2,21 +2,23 @@ security:
     enable_authenticator_manager: true
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
-        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
-            algorithm: plaintext
+#        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
+#            algorithm: plaintext
         App\Entity\Usuario:
-            algorithm: plaintext
+            algorithm: 'auto'
 
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
-        app_user_provider:
-            entity:
-                class: App\Entity\Usuario
-                property: email
+#        app_user_provider:
+#            entity:
+#                class: App\Entity\Usuario
+#                property: email
         app_user_entity_provider:
             entity:
                 class: App\Entity\Usuario
                 property: email
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_USER
 
 
     firewalls:
@@ -27,9 +29,13 @@ security:
 #            anonymous: ~
 #            http_basic:
 #                realm: Secured Area
+            login_throttling:
+                max_attempts: 3
+                interval: '1 minute'
             form_login:
                 login_path: login
                 check_path: login
+                enable_csrf: true
             logout:
                 path: app_logout
             lazy: true
@@ -44,7 +50,7 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/admin, roles: ROLE_USER }
         # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:

@@ -71,6 +71,12 @@ class Producto
      */
     private $fecha;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Usuario::class, inversedBy="productos")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $usuario;
+
     public function __construct()
     {
 //        $this->imagen = 'images/logotesteo.png';
@@ -161,6 +167,18 @@ class Producto
     public function setFecha(?\DateTimeInterface $fecha): self
     {
         $this->fecha = $fecha;
+
+        return $this;
+    }
+
+    public function getUsuario(): ?Usuario
+    {
+        return $this->usuario;
+    }
+
+    public function setUsuario(?Usuario $usuario): self
+    {
+        $this->usuario = $usuario;
 
         return $this;
     }

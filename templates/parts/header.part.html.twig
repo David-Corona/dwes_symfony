@@ -12,9 +12,11 @@
                             <li><a href="{{ path('productos_index')}}" class="text-decoration-none">Inicio</a></li>
                             <li><a href="{{ path('dwes_index')}}" class="text-decoration-none">Testeo</a></li>
                             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                <li><a href="{{ path('producto_index')}}" class="text-decoration-none">Productos</a></li>
                                 <li><a href="{{ path('app_logout')}}" class="text-decoration-none">Logout - {{ app.user.email }}</a></li>
                             {% else %}
                                 <li><a href="{{ path('login')}}" class="text-decoration-none">Login</a></li>
+                                <li><a href="{{ path('app_register')}}" class="text-decoration-none">Registro</a></li>
                             {% endif %}
 
 
